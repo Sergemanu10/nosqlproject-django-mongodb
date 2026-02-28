@@ -1,0 +1,77 @@
+{% extends 'nosqlproject/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card shadow p-4">
+
+        <h2 class="mb-4" style="color:black">➕ Ajouter un Cours</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Code cours</label>
+                    {{ form.code_cours|add_class:"form-control" }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Intitulé</label>
+                    {{ form.intitule|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                {{ form.description|add_class:"form-control" }}
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Crédit ECTS</label>
+                    {{ form.credit_ects|add_class:"form-control" }}
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Semestre</label>
+                    {{ form.semestre|add_class:"form-control" }}
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Niveau</label>
+                    {{ form.niveau|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Département</label>
+                {{ form.departement|add_class:"form-select" }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Prérequis</label>
+                {{ form.prerequis|add_class:"form-control" }}
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Enseignant</label>
+                {{ form.enseignant|add_class:"form-select" }}
+            </div>
+
+            <!-- 🔥 BOUTONS -->
+            <button type="submit" class="btn btn-success">
+                💾 Enregistrer
+            </button>
+
+            <a href="{% url 'cours_list' %}" class="btn btn-secondary">
+                Annuler
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

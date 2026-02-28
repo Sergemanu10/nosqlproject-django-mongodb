@@ -1,0 +1,11 @@
+:root {
+    --primary: #0d6efd;
+}
+
+#header {
+    background-color: #001f3f;
+}
+
+.module h2 {
+    background-color: #0074D9;
+}

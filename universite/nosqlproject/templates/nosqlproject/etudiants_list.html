@@ -1,0 +1,124 @@
+{% extends 'nosqlproject/base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- ===== Header ===== -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-0">📚 Gestion des Étudiants</h2>
+            <small class="text-muted">
+                Administration des étudiants
+            </small>
+        </div>
+
+        <a href="{% url 'etudiants_create' %}" class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-circle"></i> Ajouter un Étudiant
+        </a>
+
+    </div>
+
+    <!-- ===== Card ===== -->
+    <div class="card border-0 shadow-lg rounded-4">
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table id="etudiantsTable" class="table table-hover align-middle">
+
+                    <!-- Header -->
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Numéro de Carte</th>
+                            <th>Nom</th>
+                            <th>Prénoms</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Filière</th>
+                            <th>Année d'entrée</th>
+                            <th>Date de naissance</th>
+                            <th class="text-center" style="width:130px;">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <!-- Body -->
+                    <tbody>
+
+                        {% for etudiant in etudiants_list %}
+                        <tr>
+
+                            <td class="fw-bold text-primary">
+                                {{ etudiant.num_carte|default:"PAS DE NUMÉRO" }}
+                            </td>
+
+                            <td>{{ etudiant.nom }}</td>
+                            <td>{{ etudiant.prenoms }}</td>
+                            <td>{{ etudiant.email }}</td>
+                            <td>{{ etudiant.phone }}</td>
+                            <td>
+                                <span class="badge bg-info text-dark">
+                                    {{ etudiant.filiere }}
+                                </span>
+                            </td>
+                            <td>{{ etudiant.annee_entree }}</td>
+                            <td>{{ etudiant.date_naiss|date:"d/m/Y" }}</td>
+
+                            <!-- Actions -->
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+
+                                    <a href="{% url 'etudiants_update' etudiant.pk %}"
+                                       class="btn btn-sm btn-outline-warning rounded-3 shadow-sm">
+                                        ✏️
+                                    </a>
+
+                                    <a href="{% url 'etudiants_delete' etudiant.pk %}"
+                                       class="btn btn-sm btn-outline-danger rounded-3 shadow-sm">
+                                        🗑️
+                                    </a>
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+                        <tr>
+                            <td colspan="9" class="text-center text-muted py-4">
+                                Aucun étudiant disponible
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ===== DataTables Script ===== -->
+<script>
+    $(document).ready(function () {
+        $('#etudiantsTable').DataTable({
+            pageLength: 5,
+            lengthMenu: [5, 10, 25, 50],
+            language: {
+                search: "🔍 Rechercher :",
+                lengthMenu: "Afficher _MENU_ étudiants",
+                info: "Affichage de _START_ à _END_ sur _TOTAL_ étudiants",
+                paginate: {
+                    previous: "Précédent",
+                    next: "Suivant"
+                }
+            }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+<!--
+    Permet d’hériter du template principal base.html
+    Tout le design général (sidebar, navbar, etc.) vient de ce fichier
+-->
+{% extends 'nosqlproject/base.html' %}
+
+<!--
+    Charge la bibliothèque "widget_tweaks"
+    Elle permet de modifier le style des champs du formulaire (ajouter classes Bootstrap, etc.)
+-->
+{% load widget_tweaks %}
+
+<!--
+    Début du bloc content
+    Ce bloc sera injecté dans le {% block content %} du base.html
+-->
+{% block content %}
+
+<!-- Titre affiché en haut de la page -->
+<h2>Ajouter un cours</h2>
+
+<!--
+    Formulaire HTML
+    method="POST" :
+    - Utilisé pour envoyer des données au serveur
+    - Obligatoire pour créer ou modifier des données en Django
+-->
+<form method="POST">
+
+    <!--
+        Protection CSRF obligatoire en Django
+        Empet les attaques de type Cross-Site Request Forgery
+        Sans cette ligne → erreur 403
+    -->
+    {% csrf_token %}
+
+    <!--
+        {{ form.as_p }} :
+        - "form" est envoyé depuis la view
+        - as_p signifie "afficher chaque champ dans une balise <p>"
+        - Django génère automatiquement les champs du formulaire
+    -->
+    {{ form.as_p }}
+
+    <!--
+        Bouton de soumission
+        type="submit" → envoie le formulaire
+        btn btn-success → bouton vert Bootstrap
+    -->
+    <button type="submit" class="btn btn-success">
+        Enregistrer
+    </button>
+
+</form>
+
+<!-- Fin du bloc content -->
+{% endblock %}

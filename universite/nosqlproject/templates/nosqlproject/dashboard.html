@@ -1,0 +1,38 @@
+{% extends 'nosqlproject/base.html' %}
+{% block content %}
+
+<h2 class="mb-4 fw-bold">📊 Tableau de Bord</h2>
+
+<div class="row g-4">
+
+    <div class="col-md-3">
+        <div class="card custom-card bg-primary text-white">
+            <h5>Total Cours</h5>
+            <h2>{{ total_cours }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card custom-card bg-success text-white">
+            <h5>Total Enseignants</h5>
+            <h2>{{ total_enseignants }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card custom-card bg-warning text-dark">
+            <h5>Total Étudiants</h5>
+            <h2>{{ total_etudiants }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+    <div class="card custom-card bg-info text-white">
+        <h5>Total Inscrits</h5>
+        <h2>{{ total_inscrits }}</h2>
+    </div>
+</div>
+
+</div>
+
+{% endblock %}

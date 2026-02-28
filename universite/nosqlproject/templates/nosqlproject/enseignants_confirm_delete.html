@@ -1,0 +1,70 @@
+<!--
+    Card Bootstrap :
+    - "card" donne un conteneur stylé
+    - "shadow" ajoute une ombre
+    - "p-4" ajoute du padding (espace intérieur)
+-->
+<div class="card shadow p-4">
+
+    <!--
+        Titre de confirmation
+        - text-danger → couleur rouge (Bootstrap)
+        - ⚠ → Icône visuelle pour signaler un danger
+    -->
+    <h2 class="text-danger">⚠ Confirmer la suppression</h2>
+
+    <!--
+        mt-3 → margin-top (espace au-dessus)
+        On affiche le nom de l'etudiant envoyé par la view
+    -->
+    <p class="mt-3">
+        Voulez-vous vraiment supprimer
+
+        <!--
+            <strong> met le texte en gras
+            {{ cours.nom }} :
+            - "cours" est l’objet envoyé depuis la view
+            - "nom" est l’attribut du modèle Cours
+            - Django remplace automatiquement par la vraie valeur
+        -->
+        <strong>{{ enseignants.nom }}</strong> ?
+    </p>
+
+    <!--
+        Formulaire de suppression
+        method="POST" :
+        - Obligatoire pour modifier ou supprimer des données
+        - Plus sécurisé que GET
+    -->
+    <form method="POST">
+
+        <!--
+            Protection CSRF obligatoire en Django
+            Sans cette ligne → erreur 403
+        -->
+        {% csrf_token %}
+
+        <!--
+            Bouton rouge Bootstrap
+            btn → style bouton
+            btn-danger → bouton rouge (action dangereuse)
+            type="submit" → envoie le formulaire
+        -->
+        <button type="submit" class="btn btn-danger">
+            Oui, supprimer
+        </button>
+
+        <!--
+            Lien d'annulation
+            btn btn-secondary → bouton gris
+            {% url 'cours_list' %} :
+            - Django génère automatiquement l’URL définie dans urls.py
+            - Permet de retourner à la liste sans supprimer
+        -->
+        <a href="{% url 'enseignants_list' %}" class="btn btn-secondary">
+            Annuler
+        </a>
+
+    </form>
+
+</div>

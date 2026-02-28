@@ -1,0 +1,101 @@
+{% extends 'nosqlproject/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow-lg border-0 rounded-4 p-4">
+
+        <!-- Titre -->
+        <h3 class="text-center text-primary fw-bold mb-4">
+            ➕ Ajouter un Enseignant
+        </h3>
+
+        <form method="POST" novalidate>
+            {% csrf_token %}
+
+            <div class="row g-3">
+
+                <!-- Numéro Enseignant -->
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Numéro Enseignant</label>
+                    {{ form.num_ens|add_class:"form-control" }}
+                    {% if form.num_ens.errors %}
+                        <div class="text-danger small">
+                            {{ form.num_ens.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Nom -->
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Nom</label>
+                    {{ form.nom|add_class:"form-control" }}
+                    {% if form.nom.errors %}
+                        <div class="text-danger small">
+                            {{ form.nom.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Prénoms -->
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Prénoms</label>
+                    {{ form.prenoms|add_class:"form-control" }}
+                    {% if form.prenoms.errors %}
+                        <div class="text-danger small">
+                            {{ form.prenoms.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Email</label>
+                    {{ form.email|add_class:"form-control" }}
+                    {% if form.email.errors %}
+                        <div class="text-danger small">
+                            {{ form.email.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Département (choices = select automatique) -->
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Département</label>
+                    {{ form.departement|add_class:"form-select" }}
+                </div>
+
+                <!-- Grade (choices = select automatique) -->
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Grade</label>
+                    {{ form.grade|add_class:"form-select" }}
+                </div>
+
+                <!-- Spécialité -->
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Spécialité</label>
+                    {{ form.specialite|add_class:"form-control" }}
+                </div>
+
+            </div>
+
+            <!-- Boutons -->
+            <div class="mt-4 text-center">
+                <button type="submit" class="btn btn-success px-4 me-2">
+                    💾Enregistrer
+                </button>
+
+                <a href="{% url 'enseignants_list' %}" class="btn btn-secondary px-4">
+                    Annuler
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

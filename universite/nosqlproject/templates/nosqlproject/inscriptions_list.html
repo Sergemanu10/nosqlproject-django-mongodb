@@ -1,0 +1,110 @@
+{% extends 'nosqlproject/base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">📝 Gestion des Inscriptions</h2>
+            <small class="text-muted">Administration des inscriptions aux cours</small>
+        </div>
+
+        <a href="{% url 'inscriptions_create' %}" class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-circle"></i> Nouvelle Inscription
+        </a>
+    </div>
+
+    <!-- Card -->
+    <div class="card border-0 shadow-lg rounded-4">
+        <div class="card-body">
+            <div class="table-responsive">
+
+                <table id="inscriptionsTable" class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Étudiant</th>
+                            <th>Cours</th>
+                            <th>Date</th>
+                            <th>Heure début</th>
+                            <th>Heure fin</th>
+                            <th class="text-center" style="width:130px;">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for inscription in inscriptions_list %}
+                        <tr>
+
+                            <td class="fw-bold text-primary">
+                                {{ inscription.etudiant }}
+                            </td>
+
+                            <td>
+                                <span class="badge bg-info text-dark">
+                                    {{ inscription.cours }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {{ inscription.date_cours|date:"d/m/Y"|default:"-" }}
+                            </td>
+
+                            <td>{{ inscription.heure_debut|default:"-" }}</td>
+                            <td>{{ inscription.heure_fin|default:"-" }}</td>
+
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+
+                                    <a href="{% url 'inscriptions_update' inscription.pk %}"
+                                       class="btn btn-sm btn-outline-warning rounded-3 shadow-sm">
+                                        ✏️
+                                    </a>
+
+                                    <a href="{% url 'inscriptions_delete' inscription.pk %}"
+                                       class="btn btn-sm btn-outline-danger rounded-3 shadow-sm">
+                                        🗑️
+                                    </a>
+
+                                </div>
+                            </td>
+
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">
+                                Aucune inscription disponible
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+$(document).ready(function () {
+    $('#inscriptionsTable').DataTable({
+        pageLength: 5,
+        lengthMenu: [5, 10, 25, 50],
+        language: {
+            search: "🔍 Rechercher :",
+            lengthMenu: "Afficher _MENU_ inscriptions",
+            info: "Affichage de _START_ à _END_ sur _TOTAL_ inscriptions",
+            paginate: {
+                previous: "Précédent",
+                next: "Suivant"
+            }
+        }
+    });
+});
+</script>
+
+{% endblock %}

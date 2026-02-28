@@ -1,0 +1,146 @@
+{% extends 'nosqlproject/base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- ===== Header ===== -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-0">📘 Gestion des Cours</h2>
+            <small class="text-muted">
+                Administration des cours universitaires
+            </small>
+        </div>
+
+        <a href="{% url 'cours_create' %}" class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-circle"></i> Ajouter un Cours
+        </a>
+
+    </div>
+
+    <!-- ===== Card ===== -->
+    <div class="card border-0 shadow-lg rounded-4">
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table id="coursTable" class="table table-hover align-middle">
+
+                    <!-- Header -->
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Code</th>
+                            <th>Intitulé</th>
+                            <th>ECTS</th>
+                            <th>Semestre</th>
+                            <th>Département</th>
+                            <th>Enseignant</th>
+                            <th class="text-center" style="width:130px;">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for cours in cours_list %}
+                        <tr>
+
+                            <!-- Code -->
+                            <td class="fw-bold text-primary">
+                                {{ cours.code_cours }}
+                            </td>
+
+                            <!-- Intitulé -->
+                            <td>{{ cours.intitule }}</td>
+
+                            <!-- Crédit ECTS -->
+                            <td>
+                                <span class="badge bg-secondary">
+                                    {{ cours.credit_ects }} ECTS
+                                </span>
+                            </td>
+
+                            <!-- Semestre -->
+                            <td>
+                                {% if cours.semestre == "S1" %}
+                                    <span class="badge bg-success">
+                                        {{ cours.semestre }}
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-info text-dark">
+                                        {{ cours.semestre }}
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <!-- Département -->
+                            <td>
+                                <span class="badge bg-warning text-dark">
+                                    {{ cours.departement }}
+                                </span>
+                            </td>
+
+                            <!-- Enseignant -->
+                            <td>
+                                {{ cours.enseignant }}
+                            </td>
+
+                            <!-- Actions -->
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+
+                                    <a href="{% url 'cours_update' cours.pk %}"
+                                       class="btn btn-sm btn-outline-warning rounded-3 shadow-sm">
+                                        ✏️
+                                    </a>
+
+                                    <a href="{% url 'cours_delete' cours.pk %}"
+                                       class="btn btn-sm btn-outline-danger rounded-3 shadow-sm">
+                                        🗑️
+                                    </a>
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-4">
+                                Aucun cours disponible
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- ===== DataTables Script ===== -->
+<script>
+    $(document).ready(function () {
+        $('#coursTable').DataTable({
+            pageLength: 5,
+            lengthMenu: [5, 10, 25, 50],
+            language: {
+                search: "🔍 Rechercher :",
+                lengthMenu: "Afficher _MENU_ cours",
+                info: "Affichage de _START_ à _END_ sur _TOTAL_ cours",
+                paginate: {
+                    previous: "Précédent",
+                    next: "Suivant"
+                }
+            }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends 'nosqlproject/base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- ===== Header ===== -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-0">👨‍🏫 Gestion des Enseignants</h2>
+            <small class="text-muted">
+                Administration des enseignants
+            </small>
+        </div>
+
+        <a href="{% url 'enseignants_create' %}" class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-circle"></i> Ajouter un Enseignant
+        </a>
+
+    </div>
+
+    <!-- ===== Card ===== -->
+    <div class="card border-0 shadow-lg rounded-4">
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table id="enseignantsTable" class="table table-hover align-middle">
+
+                    <!-- Header -->
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Numéro Enseignant</th>
+                            <th>Nom</th>
+                            <th>Prénoms</th>
+                            <th>Email</th>
+                            <th>Département</th>
+                            <th>Grade</th>
+                            <th>Spécialité</th>
+                            <th class="text-center" style="width:130px;">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for enseignant in enseignants_list %}
+                        <tr>
+
+                            <!-- Numéro -->
+                            <td class="fw-bold text-primary">
+                                {{ enseignant.num_ens|default:"PAS DE NUMÉRO" }}
+                            </td>
+
+                            <!-- Nom -->
+                            <td>{{ enseignant.nom }}</td>
+
+                            <!-- Prénoms -->
+                            <td>{{ enseignant.prenoms }}</td>
+
+                            <!-- Email -->
+                            <td>{{ enseignant.email }}</td>
+
+                            <!-- Département -->
+                            <td>
+                                <span class="badge bg-info text-dark">
+                                    {{ enseignant.departement }}
+                                </span>
+                            </td>
+
+                            <!-- Grade -->
+                            <td>
+                                <span class="badge bg-secondary">
+                                    {{ enseignant.grade }}
+                                </span>
+                            </td>
+
+                            <!-- Spécialité -->
+                            <td>{{ enseignant.specialite }}</td>
+
+                            <!-- Actions -->
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+
+                                    <a href="{% url 'enseignants_update' enseignant.pk %}"
+                                       class="btn btn-sm btn-outline-warning rounded-3 shadow-sm">
+                                        ✏️
+                                    </a>
+
+                                    <a href="{% url 'enseignants_delete' enseignant.pk %}"
+                                       class="btn btn-sm btn-outline-danger rounded-3 shadow-sm">
+                                        🗑️
+                                    </a>
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-4">
+                                Aucun enseignant disponible
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ===== DataTables Script ===== -->
+<script>
+    $(document).ready(function () {
+        $('#enseignantsTable').DataTable({
+            pageLength: 5,
+            lengthMenu: [5, 10, 25, 50],
+            language: {
+                search: "🔍 Rechercher :",
+                lengthMenu: "Afficher _MENU_ enseignants",
+                info: "Affichage de _START_ à _END_ sur _TOTAL_ enseignants",
+                paginate: {
+                    previous: "Précédent",
+                    next: "Suivant"
+                }
+            }
+        });
+    });
+</script>
+
+{% endblock %}

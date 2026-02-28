@@ -1,0 +1,128 @@
+<!--
+    Hérite du template principal base.html
+    Permet de garder le même design (sidebar, header, etc.)
+-->
+{% extends 'nosqlproject/base.html' %}
+
+<!--
+    Charge la bibliothèque widget_tweaks
+    Permet d’ajouter des classes CSS aux champs du formulaire
+-->
+{% load widget_tweaks %}
+
+<!--
+    Début du bloc content
+    Le contenu ici sera injecté dans base.html
+-->
+{% block content %}
+
+<!--
+    container → classe Bootstrap qui centre le contenu
+-->
+<div class="container">
+
+    <!--
+        card → carte Bootstrap
+        shadow → ajoute une ombre
+        p-4 → padding interne (espace intérieur)
+    -->
+    <div class="card shadow p-4">
+
+        <!--
+            mb-4 → margin bottom (espace en bas)
+            style="color:black" → couleur du texte
+        -->
+        <h2 class="mb-4" style="color:black">➕ Ajouter un Etudiant</h2>
+
+        <!--
+            Formulaire en méthode POST
+            POST est utilisé pour envoyer des données au serveur
+        -->
+        <form method="POST">
+
+            <!-- Protection CSRF obligatoire en Django -->
+            {% csrf_token %}
+
+            <!--
+                row → ligne Bootstrap
+                Permet d'organiser les champs en colonnes
+            -->
+            <div class="row">
+
+                <!--
+                    col-md-6 → prend 6 colonnes sur 12 en écran moyen
+                    mb-3 → espace en bas
+                -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Numero Carte</label>
+
+                    <!--
+                        form.code_cours → champ venant du ModelForm
+                        add_class:"form-control" → ajoute style Bootstrap
+                    -->
+                    {{ form.num_carte|add_class:"form-control" }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Nom</label>
+                    {{ form.nom|add_class:"form-control" }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Prénoms</label>
+                    {{ form.prenoms|add_class:"form-control" }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">E-mail</label>
+                    {{ form.email|add_class:"form-control" }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Téléphone</label>
+                    {{ form.phone|add_class:"form-control" }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Filière</label>
+                    <!--
+                    form-select → style Bootstrap pour liste déroulante
+                -->
+                {{ form.filiere|add_class:"form-select" }}
+                </div>
+
+
+                 <div class="col-md-6 mb-3">
+                    <label class="form-label">Année d'entrée</label>
+                    {{ form.annee_entree|add_class:"form-control" }}
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Date de naissance</label>
+                    {{ form.date_naiss|add_class:"form-control" }}
+                </div>
+
+            </div>
+
+            <!--
+                Bouton de soumission
+                btn-success → bouton vert
+            -->
+            <button type="submit" class="btn btn-success">
+               💾Enregistrer
+            </button>
+
+            <!--
+                Lien pour revenir à la liste des cours
+                {% url 'cours_list' %} génère l’URL automatiquement
+            -->
+            <a href="{% url 'etudiants_list' %}" class="btn btn-secondary">
+                Annuler
+            </a>
+
+        </form>
+    </div>
+</div>
+
+<!-- Fin du bloc content -->
+{% endblock %}
